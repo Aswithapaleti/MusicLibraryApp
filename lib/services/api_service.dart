@@ -57,7 +57,10 @@ class ApiService {
     } catch (e) {
       if (e.toString().contains('SocketException') ||
           e.toString().contains('Connection')) {
-        throw const ApiException('NO INTERNET CONNECTION', isNetworkError: true);
+        throw const ApiException(
+          'NO INTERNET CONNECTION',
+          isNetworkError: true,
+        );
       }
       throw ApiException('Failed to load tracks: $e');
     }
@@ -75,7 +78,8 @@ class ApiService {
 
         // Deezer returns {"error": {...}} for invalid IDs
         if (data.containsKey('error')) {
-          final errorMsg = data['error']['message'] as String? ?? 'Track not found';
+          final errorMsg =
+              data['error']['message'] as String? ?? 'Track not found';
           throw ApiException(errorMsg);
         }
 
@@ -89,18 +93,27 @@ class ApiService {
       rethrow;
     } catch (e) {
       if (e.toString().contains('SocketException')) {
-        throw const ApiException('NO INTERNET CONNECTION', isNetworkError: true);
+        throw const ApiException(
+          'NO INTERNET CONNECTION',
+          isNetworkError: true,
+        );
       }
       throw ApiException('Failed to load track details: $e');
     }
   }
 
   // Lyrics via lyrics.ovh — free, no API key needed
-  Future<String?> fetchLyrics(int trackId, String trackTitle, String artistName) async {
+  Future<String?> fetchLyrics(
+    int trackId,
+    String trackTitle,
+    String artistName,
+  ) async {
     try {
       final encodedArtist = Uri.encodeComponent(artistName);
       final encodedTitle = Uri.encodeComponent(trackTitle);
-      final uri = Uri.parse('https://api.lyrics.ovh/v1/$encodedArtist/$encodedTitle');
+      final uri = Uri.parse(
+        'https://api.lyrics.ovh/v1/$encodedArtist/$encodedTitle',
+      );
       final response = await _client.get(uri).timeout(_timeout);
 
       if (response.statusCode == 200) {

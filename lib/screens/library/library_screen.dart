@@ -84,9 +84,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
             children: [
               _TrackCountBanner(
                 total: state.allTracks.length,
-                filtered: state.displayItems
-                    .whereType<TrackItem>()
-                    .length,
+                filtered: state.displayItems.whereType<TrackItem>().length,
                 isSearching: state.isSearching,
               ),
               if (state.errorMessage != null)
@@ -146,14 +144,14 @@ class _SearchBar extends StatelessWidget {
           prefixIcon: const Icon(Icons.search),
           suffixIcon: controller.text.isNotEmpty
               ? IconButton(
-            icon: const Icon(Icons.clear),
-            onPressed: () {
-              controller.clear();
-              context
-                  .read<LibraryBloc>()
-                  .add(const LibrarySearchCleared());
-            },
-          )
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    controller.clear();
+                    context.read<LibraryBloc>().add(
+                      const LibrarySearchCleared(),
+                    );
+                  },
+                )
               : null,
           filled: true,
           isDense: true,
@@ -174,10 +172,7 @@ class _VirtualList extends StatelessWidget {
   final LibraryState state;
   final ScrollController scrollController;
 
-  const _VirtualList({
-    required this.state,
-    required this.scrollController,
-  });
+  const _VirtualList({required this.state, required this.scrollController});
 
   @override
   Widget build(BuildContext context) {
@@ -214,7 +209,7 @@ class _VirtualList extends StatelessWidget {
           trackId: track.id,
           artistName: track.artistName,
           trackTitle: track.title,
-            albumCover: track.albumCover,
+          albumCover: track.albumCover,
         ),
       ),
     );
@@ -258,7 +253,10 @@ class _InlineBanner extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       child: Text(
         message,
-        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

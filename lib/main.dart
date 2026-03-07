@@ -16,9 +16,7 @@ class MusicLibraryApp extends StatelessWidget {
     return RepositoryProvider(
       create: (_) => MusicRepository(),
       child: BlocProvider(
-        create: (ctx) => LibraryBloc(
-          repository: ctx.read<MusicRepository>(),
-        ),
+        create: (ctx) => LibraryBloc(repository: ctx.read<MusicRepository>()),
         child: MaterialApp(
           title: 'Music Library',
           debugShowCheckedModeBanner: false,
@@ -28,10 +26,7 @@ class MusicLibraryApp extends StatelessWidget {
               brightness: Brightness.dark,
             ),
             useMaterial3: true,
-            appBarTheme: const AppBarTheme(
-              centerTitle: false,
-              elevation: 0,
-            ),
+            appBarTheme: const AppBarTheme(centerTitle: false, elevation: 0),
           ),
           home: const LibraryScreen(),
         ),

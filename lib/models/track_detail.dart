@@ -32,10 +32,11 @@ class TrackDetail {
   factory TrackDetail.fromJson(Map<String, dynamic> json) {
     final artist = json['artist'] as Map<String, dynamic>?;
     final album = json['album'] as Map<String, dynamic>?;
-    final genresList = (album?['genres']?['data'] as List<dynamic>?)
-        ?.map((g) => (g['name'] as String?) ?? '')
-        .where((g) => g.isNotEmpty)
-        .toList() ??
+    final genresList =
+        (album?['genres']?['data'] as List<dynamic>?)
+            ?.map((g) => (g['name'] as String?) ?? '')
+            .where((g) => g.isNotEmpty)
+            .toList() ??
         [];
 
     return TrackDetail(
@@ -67,11 +68,7 @@ class Lyrics {
   final String? text;
   final String? syncedLyrics;
 
-  const Lyrics({
-    required this.trackId,
-    this.text,
-    this.syncedLyrics,
-  });
+  const Lyrics({required this.trackId, this.text, this.syncedLyrics});
 
   bool get hasLyrics => (text != null && text!.isNotEmpty);
 

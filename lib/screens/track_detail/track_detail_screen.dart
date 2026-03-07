@@ -26,11 +26,13 @@ class TrackDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => TrackDetailBloc(repository: MusicRepository())
-        ..add(TrackDetailLoadRequested(
-          trackId: trackId,
-          artistName: artistName,
-          trackTitle: trackTitle,
-        )),
+        ..add(
+          TrackDetailLoadRequested(
+            trackId: trackId,
+            artistName: artistName,
+            trackTitle: trackTitle,
+          ),
+        ),
       child: _TrackDetailView(
         trackId: trackId,
         artistName: artistName,
@@ -61,12 +63,11 @@ class _TrackDetailView extends StatelessWidget {
         builder: (context, state) {
           return switch (state.status) {
             TrackDetailStatus.initial ||
-            TrackDetailStatus.loadingDetail =>
-                _LoadingView(
-                  title: trackTitle,
-                  artist: artistName,
-                  cover: albumCover,
-                ),
+            TrackDetailStatus.loadingDetail => _LoadingView(
+              title: trackTitle,
+              artist: artistName,
+              cover: albumCover,
+            ),
             TrackDetailStatus.failure => _FailureView(
               message: state.errorMessage ?? 'Unknown error',
               onRetry: () => context.read<TrackDetailBloc>().add(
@@ -249,7 +250,9 @@ class _SuccessView extends StatelessWidget {
                               detail.artistName,
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
-                            if (detail.albumTitle.isNotEmpty) // ✅ non-nullable String
+                            if (detail
+                                .albumTitle
+                                .isNotEmpty) // ✅ non-nullable String
                               Text(
                                 detail.albumTitle,
                                 style: Theme.of(context).textTheme.bodySmall,
@@ -267,7 +270,8 @@ class _SuccessView extends StatelessWidget {
                     children: [
                       _StatChip(
                         label: 'Duration',
-                        value: detail.durationFormatted, // ✅ getter exists on Track
+                        value: detail
+                            .durationFormatted, // ✅ getter exists on Track
                       ),
                       _StatChip(label: 'ID', value: '${detail.id}'),
                       // ✅ rank/bpm removed — not on Track
@@ -312,10 +316,9 @@ class _StatChip extends StatelessWidget {
         children: [
           Text(
             label,
-            style: Theme.of(context)
-                .textTheme
-                .labelSmall
-                ?.copyWith(color: Colors.grey),
+            style: Theme.of(
+              context,
+            ).textTheme.labelSmall?.copyWith(color: Colors.grey),
           ),
           Text(value, style: Theme.of(context).textTheme.titleSmall),
         ],

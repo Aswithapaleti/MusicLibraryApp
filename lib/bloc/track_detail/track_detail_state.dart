@@ -3,12 +3,18 @@
 import 'package:equatable/equatable.dart';
 import '../../models/track.dart'; // Track only — no TrackDetail import
 
-enum TrackDetailStatus { initial, loadingDetail, loadingLyrics, success, failure }
+enum TrackDetailStatus {
+  initial,
+  loadingDetail,
+  loadingLyrics,
+  success,
+  failure,
+}
 
 class TrackDetailState extends Equatable {
   final TrackDetailStatus status;
-  final Track? detail;        // was TrackDetail? — now just Track?
-  final String? lyrics;       // was Lyrics? — now plain String?
+  final Track? detail; // was TrackDetail? — now just Track?
+  final String? lyrics; // was Lyrics? — now plain String?
   final bool lyricsLoading;
   final String? errorMessage;
   final String? lyricsError;
@@ -41,6 +47,12 @@ class TrackDetailState extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [status, detail?.id, lyrics, lyricsLoading, errorMessage, lyricsError];
+  List<Object?> get props => [
+    status,
+    detail?.id,
+    lyrics,
+    lyricsLoading,
+    errorMessage,
+    lyricsError,
+  ];
 }

@@ -11,26 +11,28 @@ class TrackDetailBloc extends Bloc<TrackDetailEvent, TrackDetailState> {
   final MusicRepository _repo;
 
   TrackDetailBloc({MusicRepository? repository})
-      : _repo = repository ?? MusicRepository(),
-        super(const TrackDetailState()) {
+    : _repo = repository ?? MusicRepository(),
+      super(const TrackDetailState()) {
     on<TrackDetailLoadRequested>(_onLoadRequested);
   }
 
   Future<void> _onLoadRequested(
-      TrackDetailLoadRequested event,
-      Emitter<TrackDetailState> emit,
-      ) async {
+    TrackDetailLoadRequested event,
+    Emitter<TrackDetailState> emit,
+  ) async {
     emit(const TrackDetailState(status: TrackDetailStatus.loadingDetail));
 
     try {
       // 1. Fetch track detail
       final Track detail = await _repo.getTrackDetail(event.trackId);
 
-      emit(TrackDetailState(
-        status: TrackDetailStatus.loadingLyrics,
-        detail: detail,
-        lyricsLoading: true,
-      ));
+      emit(
+        TrackDetailState(
+          status: TrackDetailStatus.loadingLyrics,
+          detail: detail,
+          lyricsLoading: true,
+        ),
+      );
 
       // 2. Fetch lyrics — failure here should NOT hide the detail
       try {
@@ -39,39 +41,49 @@ class TrackDetailBloc extends Bloc<TrackDetailEvent, TrackDetailState> {
           event.artistName,
           event.trackTitle,
         );
-        emit(TrackDetailState(
-          status: TrackDetailStatus.success,
-          detail: detail,
-          lyrics: lyrics,         // may be null — UI handles that
-          lyricsLoading: false,
-        ));
+        emit(
+          TrackDetailState(
+            status: TrackDetailStatus.success,
+            detail: detail,
+            lyrics: lyrics, // may be null — UI handles that
+            lyricsLoading: false,
+          ),
+        );
       } on ApiException catch (e) {
         // Network error on lyrics fetch — still show detail
-        emit(TrackDetailState(
-          status: TrackDetailStatus.success,
-          detail: detail,
-          lyricsLoading: false,
-          lyricsError: e.message, // 'NO INTERNET CONNECTION' if network error
-        ));
+        emit(
+          TrackDetailState(
+            status: TrackDetailStatus.success,
+            detail: detail,
+            lyricsLoading: false,
+            lyricsError: e.message, // 'NO INTERNET CONNECTION' if network error
+          ),
+        );
       } catch (_) {
-        emit(TrackDetailState(
-          status: TrackDetailStatus.success,
-          detail: detail,
-          lyricsLoading: false,
-          lyricsError: 'Lyrics not available',
-        ));
+        emit(
+          TrackDetailState(
+            status: TrackDetailStatus.success,
+            detail: detail,
+            lyricsLoading: false,
+            lyricsError: 'Lyrics not available',
+          ),
+        );
       }
     } on ApiException catch (e) {
       // Network/server error on detail fetch — full failure
-      emit(TrackDetailState(
-        status: TrackDetailStatus.failure,
-        errorMessage: e.message,
-      ));
+      emit(
+        TrackDetailState(
+          status: TrackDetailStatus.failure,
+          errorMessage: e.message,
+        ),
+      );
     } catch (e) {
-      emit(TrackDetailState(
-        status: TrackDetailStatus.failure,
-        errorMessage: e.toString(),
-      ));
+      emit(
+        TrackDetailState(
+          status: TrackDetailStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 }
