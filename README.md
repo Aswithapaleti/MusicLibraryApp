@@ -15,3 +15,26 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+# 🎵 Music Library App
+
+A Flutter application for browsing and managing your music library.
+
+## Features
+- Browse music tracks
+- Search songs/artists
+- Play music
+- Manage playlists
+
+## Tech Stack
+- Flutter
+- Dart
+
+## How to Run
+```bash
+flutter pub get
+flutter run
+```
+
+## Demo Video
+[Click here to watch the demo](https://your-video-link.com)
+
