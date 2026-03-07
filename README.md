@@ -36,5 +36,5 @@ flutter run
 ```
 
 ## Demo Video
-[Click here to watch the demo](https://your-video-link.com)
+https://www.mediafire.com/file/9uwmlt2nlx3ucle/Record_2026-03-07-15-12-02.mp4/file
 
